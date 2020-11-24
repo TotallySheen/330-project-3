@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>IGM Job Finder</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="styles/default-styles.css">
+    <script src="./src/loader.js" type="module"></script>
+</head>
+<body>
+    <div id='map'></div>
+    <div id="controls">
+        <label for="place">Location:</label>
+        <input type="text" id="place" name="place">
+        <label for="language">Language: (WIP)</label>
+        <select name="language" id="language">
+            <option value="any">Any</option>
+            <option value="cs">C#</option>
+            <option value="cpp">C++</option>
+            <option value="js">Javascript</option>
+            <option value="py">Python</option>
+        </select>
+        <button id="search">Search</button>
+    </div>
+</body>
+</html>
