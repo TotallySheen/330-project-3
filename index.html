@@ -1,29 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset='utf-8' />
     <title>IGM Job Finder</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" type="text/css" href="styles/default-styles.css">
     <script src="./src/loader.js" type="module"></script>
 </head>
 <body>
-    <div id='map'></div>
-    <div id="controls">
-        <label for="place">Location:</label>
-        <input type="text" id="place" name="place">
-        <label for="language">Language: (WIP)</label>
-        <select name="language" id="language">
-            <option value="any">Any</option>
-            <option value="cs">C#</option>
-            <option value="cpp">C++</option>
-            <option value="js">Javascript</option>
-            <option value="py">Python</option>
-        </select>
-        <button id="search">Search</button>
-    </div>
+    <main id='map'></main>
+    <nav id="controls">
+        <button id="collapse">▼</button>
+        <div class="collapsable">
+            <img src="images/logo.png" alt="STUDENT JOB FINDER">
+            <label for="place">Location:</label>
+            <input type="text" id="place" name="place">
+            <label for="numResults">Results: </label>
+            <select name="numResults" id="numResults">
+                <option value="1">1</option>
+                <option value="3">3</option>
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="all">All</option>
+            </select>
+            <div>Language:</div>
+            <input type="radio" id="any" name="language" value="any" checked>
+            <label for="any">Any</label><br>
+            <input type="radio" id="cs" name="language" value="C#">
+            <label for="cs">C#</label><br>
+            <input type="radio" id="cpp" name="language" value="C++">
+            <label for="cpp">C++</label><br>
+            <input type="radio" id="js" name="language" value="Javascript">
+            <label for="js">Javascript</label><br>
+            <input type="radio" id="py" name="language" value="Python">
+            <label for="py">Python</label><br>
+            <input type="radio" id="other" name="language" value="">
+            <label for="other">Other: </label><input disabled type="text" id="otherText"><br>
+            <footer>©2020 Sean Gindhart</footer>
+            <button id="search">SEARCH</button>
+        </div>
+    </nav>
 </body>
 </html>

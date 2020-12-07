@@ -5,6 +5,8 @@ let geojson = {
     features: []
     };
 let map;
+let markers = [];
+let allCoords = [];
 
 function initMap(){
     mapboxgl.accessToken = 'pk.eyJ1IjoidG90YWxseXNoZWVuIiwiYSI6ImNraGY3cnpqajBhbzIycW1yMHVyaHdrNnEifQ.crfyw4tvYt0u97IueEVxpw';
@@ -189,7 +191,7 @@ function setPitchandBearing(pitch=0,bearing=0){
     map.setBearing(bearing);
 }
 
-function addMarker(location, title, description, className){
+function addMarker(location, title, description, jobUrl, className){
     // create a HTML element for each feature
     let el = document.createElement('div');
     el.className = className;
@@ -208,14 +210,62 @@ function addMarker(location, title, description, className){
     {
         let loc = JSON.parse(jsonString);
         coordinates = loc.features[0].geometry.coordinates;
-        new mapboxgl.Marker(el)
+        let marker = new mapboxgl.Marker(el)
             .setLngLat(coordinates)
             .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML('<h3>' + title + '</h3><p>' + description + '</p>'))
+            .setHTML('<h3>' + title + `</h3><p><a href="${jobUrl}">` + description + '</a></p>'))
             .addTo(map);
+        markers.push(marker);
+        allCoords.push(coordinates);
+        flyToAvg();
     }
 
     ajax.downloadFile(url,coordsLoaded);
 }
 
-export {initMap,loadMarkers,addMarkersToMap,flyTo,setZoomLevel,setPitchandBearing,addMarker}
+function clearMarkers()
+{
+    // looping through the markers and removing them
+    for (let m of markers)
+    {
+        m.remove();
+    }
+    markers = [];
+    allCoords = [];
+}
+
+function flyToAvg()
+{
+    let avg = [0.0,0.0];
+    let count = 0;
+    let max = [0.0,0.0];
+    let min = [0.0,0.0];
+    for (let c of allCoords)
+    {
+        avg[0] += c[0];
+        avg[1] += c[1];
+        if (c[0] < min[0]) min[0] = c[0];
+        if (c[0] > max[0]) min[0] = c[0];
+        if (c[1] < min[1]) min[1] = c[1];
+        if (c[1] > max[1]) min[1] = c[1];
+        count++;
+    }
+    avg[0] /= count;
+    avg[1] /= count;
+    // calculating the zoom
+    let lngDif = Math.abs(max[0] - min[0]);
+    let latDif = Math.abs(max[1] - min[1]);
+    if (lngDif > latDif * 2)
+    {
+        setZoomLevel(10 * lngDif / 360);
+        console.log("lng " + 20 * lngDif / 360)
+    }
+    else
+    {
+        setZoomLevel(10 * latDif / 180);
+        console.log("lat " + 20 * latDif / 180)
+    }
+    flyTo(avg);
+}
+
+export {initMap,loadMarkers,addMarkersToMap,flyTo,setZoomLevel,setPitchandBearing,addMarker,clearMarkers}

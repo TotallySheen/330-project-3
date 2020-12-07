@@ -2,7 +2,7 @@
 	$BASE_URL ="https://jobs.github.com/positions.json?";
     ini_set("memory_limit",-1);
     // bail out if we don't have a term or location parameter
-    if(!array_key_exists('term',$_REQUEST) && (!array_key_exists('location',$_REQUEST))){
+    if((!array_key_exists('location',$_REQUEST))){
         echo "<strong>You need both a <em>term</em> and a <em>location</em> parameter!</strong>";
             // This shuts down the current php script
         exit(); //You can also call die() - according to the PHP spec they are identical
@@ -11,14 +11,19 @@
         //$_REQUEST is an associative array built into PHP that contains the web request
         // print_r($_REQUEST); // use for debugging to see what the `term` and `location` are
         // This will have all of the values from the request and information about the request
-        //$term = $_REQUEST['term'];
         $location = $_REQUEST['location'];
         
         // encode spaces in the parameters as +
-        //$term = str_replace(' ', '+', $term);
+        
         $location = str_replace(' ', '+', $location);
-        $url = $BASE_URL . /*"term=$term&*/"location=$location";
+        $url = $BASE_URL . "location=$location";
 
+        // if a description exists, add it to the url
+        if (array_key_exists('description',$_REQUEST)){
+            $description = $_REQUEST['description'];
+            $description = str_replace(' ', '+', $description);
+            $url = $url . "&description=$description";
+        }
         
         
         // set up our authorization headers to send the API key

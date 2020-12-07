@@ -13,6 +13,8 @@ function downloadFile(url,callbackRef){
 
     xhr.open("GET",url);
 
+    console.log(url);
+
     xhr.send();
 }
 
